@@ -52,7 +52,6 @@ public class LinkedList<E> implements ListADT<E> {
 	 */
 	public Listnode<E> getHeaderNode() {
 		//TODO implement this method
-		System.out.println("x");
 	}
 
 	/**
