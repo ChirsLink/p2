@@ -37,6 +37,10 @@ public class LinkedList<E> implements ListADT<E> {
 	//	       you must use LinkedListIterator<E> instead of Iterator<E>
 	//	
 
+    // Need further change
+    private Listnode<E> head;
+    private int numItems;
+
 	/** 
 	 * Returns a reference to the header node for this linked list.
 	 * The header node is the first node in the chain and it does not 
@@ -51,14 +55,16 @@ public class LinkedList<E> implements ListADT<E> {
 	 * 
 	 * @return a reference to the header node of this list. 0
 	 */
+
 	public Listnode<E> getHeaderNode() {
 		//TODO implement this method
+        return head;
 	}
 
 	/**
 	 * Must return a reference to a LinkedListIterator for this list.
 	 */
 	public LinkedListIterator<E> iterator() {
-		//TODO implement this method
+	    return LinkedListIterator();
 	}
 }
