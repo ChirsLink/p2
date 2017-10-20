@@ -63,10 +63,10 @@ public class LinkedList<E> implements ListADT<E> {
     	}
     	// Create new Listnode that contains info to add
     	Listnode<E> newNode = new Listnode<E>(item);
-    	
+
     	// Listnode to loop through the list to find the end
     	Listnode<E> curr  = head;
-    	
+
     	// Loop through the Linked list to find the end of the list
     	while(curr.getNext() != null){
     		curr = curr.getNext();
@@ -86,29 +86,29 @@ public class LinkedList<E> implements ListADT<E> {
 	 * than size()
 	 */
     public void add(int pos, E item){
-    	
+
     	// When the item passed in is null, throw IllegalArgumentException
     	if(item == null){
     		throw new IllegalArgumentException();
     	}
-    	
+
     	// When usr wants to add item to position smaller than 0 or bigger than
     	// the size of list, throw IndexOutOfBoundsException
     	if(pos< 0 || pos>size()){
     		throw new IndexOutOfBoundsException();
     	}
-    	
+
     	// Create new node to add to linked list
     	Listnode<E> newNode = new Listnode<E>(item);
-    	
+
     	// Listnode to indicate the current location in the list
     	Listnode<E> curr = head;
-    	
+
     	// Iterate through the list to the one before the position to add
     	for(int i = 0; i < pos; ++i){
     		curr = curr.getNext();
     	}
-    	
+
     	// When the next position is not null, add new node between two nodes
     	if(curr.getNext() != null){
     		newNode.setNext(curr.getNext());
@@ -131,7 +131,7 @@ public class LinkedList<E> implements ListADT<E> {
 	public boolean contains(E item) {
 		// Create Iterator to iterate through the list
 		Iterator<E> itr = iterator();
-		
+
 		// When there is nex item in the list, check the data. 
 		while(itr.hasNext()){
 			// If found a match return true indicates match found
@@ -155,19 +155,19 @@ public class LinkedList<E> implements ListADT<E> {
 		
 		E item = null;
 		// When usr wants to add item to position smaller than 0 or bigger than
-    	// or equal to size of list, throw IndexOutOfBoundsException
+		// or equal to size of list, throw IndexOutOfBoundsException
 		if(pos<0 || pos >= size()){
 			throw new IndexOutOfBoundsException();
 		}
-		
+
 		// Create Iterator to iterate through the list
 		Iterator<E> itr = iterator();
-		
+
 		// Iterate to the position and get the data item at that position
 		for(int i = 0; i<= pos; ++i){
 			item  = itr.next();
 		}
-		
+
 		// Return the data item 
 		return item;
 	}
@@ -178,13 +178,13 @@ public class LinkedList<E> implements ListADT<E> {
 	 * @return true if the List is empty, false otherwise
 	 */
 	public boolean isEmpty() {
-		
+
 		// Listnode to indicate the current position 
 		Listnode<E> curr = head;
 
 		// Boolean variable to indicate if list is empty
 		boolean empty = true;
-		
+
 		// Go through the list and check every data item of the listnode
 		for(int i = 0; i< size(); ++i){
 			// if one of them is not empty, change the boolean and break loop
@@ -241,33 +241,33 @@ public class LinkedList<E> implements ListADT<E> {
 		else{
 			curr.setNext(curr.getNext().getNext());
 		}
-		
+
 		return item;
 	}
-    
 
-    
-    /**
+
+
+	/**
 	 * Returns the number of items in the List.
 	 * 
 	 * @return the number of items in the List
 	 */
-    public int size(){
-    	// Variable to store the size of the list
-    	int size = 0;
-    	// Listnode to indicate current location in the list
-    	Listnode<E> curr = head;
-    	
-    	// Loop through the list until the next one is null to find the size
-    	while(curr.getNext() != null){
-    		curr = curr.getNext();
-    		// Increment size
-    		++ size;
-    	}
-    	// Return the size of the list
-    	return size;
-    }
-   
+	public int size(){
+		// Variable to store the size of the list
+		int size = 0;
+		// Listnode to indicate current location in the list
+		Listnode<E> curr = head;
+
+		// Loop through the list until the next one is null to find the size
+		while(curr.getNext() != null){
+			curr = curr.getNext();
+			// Increment size
+			++ size;
+		}
+		// Return the size of the list
+		return size;
+	}
+
 	/** 
 	 * Returns a reference to the header node for this linked list.
 	 * The header node is the first node in the chain and it does not 
@@ -282,15 +282,15 @@ public class LinkedList<E> implements ListADT<E> {
 	 * 
 	 * @return a reference to the header node of this list. 0
 	 */
-	public Listnode<E> getHeaderNode() {
-		//TODO implement this method
-        return head;
-	}
+    public Listnode<E> getHeaderNode() {
+    	//TODO implement this method
+    	return head;
+    }
 
-	/**
-	 * Must return a reference to a LinkedListIterator for this list.
-	 */
-	public LinkedListIterator<E> iterator() {
-	    return new LinkedListIterator<E>(head.getNext());
-	}
+    /**
+     * Must return a reference to a LinkedListIterator for this list.
+     */
+    public LinkedListIterator<E> iterator() {
+    	return new LinkedListIterator<E>(head.getNext());
+    }
 }
