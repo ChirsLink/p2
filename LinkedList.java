@@ -40,7 +40,97 @@ public class LinkedList<E> implements ListADT<E> {
     // Need further change
     private Listnode<E> head;
     private int numItems;
+    
+    /**
+     * Construct new Linkedlist with header node
+     */
+    public LinkedList(){
+    	//Initialize a header node with null reference
+    	head  = new Listnode<E>(null);
+    }
+    
+    
+    
+    /**
+	 * Adds a data item to the end of the List.
+	 * 
+	 * @param item the item to add
+	 * @throws IllegalArgumentException if item is null 
+	 */
+    public void add(E item){
+    	// If item doesn't exit throw illegalArugementException
+    	if(item == null){
+    		throw new IllegalArgumentException();
+    	}
+    	// Create new Listnode that contains info to add
+    	Listnode<E> newNode = new Listnode<E>(item);
+    	
+    	// Listnode to loop through the list to find the end
+    	Listnode<E> curr  = head;
+    	
+    	// Loop through the Linked list to find the end of the list
+    	while(curr.getNext() != null){
+    		curr = curr.getNext();
+    	}
+    	// Set the next node at the end of the list to be the new node
+    	curr.setNext(newNode);
+    }
+    
+    /**
+	 * Adds a data item at position pos in the List, moving the items originally 
+	 * in positions pos through size() - 1 one place to the right to make room.
+	 * 
+	 * @param pos the position at which to add the item
+	 * @param item the item to add
+	 * @throws IllegalArgumentException if item is null 
+	 * @throws IndexOutOfBoundsException if pos is less than 0 or greater 
+	 * than size()
+	 */
+    public void add(int pos, E item){
+    	// Variable to store the size of the list
+    	int size = size();
+    	
+    	// When the item passed in is null, throw IllegalArgumentException
+    	if(item == null){
+    		throw new IllegalArgumentException();
+    	}
+    	
+    	// When usr wants to add item to position smaller than 0 or bigger than
+    	// the size of list, throw IndexOutOfBoundsException
+    	if(pos< 0 || pos>size){
+    		throw new IndexOutOfBoundsException();
+    	}
+    	// Create new node to add to linked list
+    	Listnode<E> newNode = new Listnode<E>(item);
+    	
+    	for(int i = 0; i < pos; ++i){
+    		
+    	}
+    	
+    }
 
+    
+    /**
+	 * Returns the number of items in the List.
+	 * 
+	 * @return the number of items in the List
+	 */
+    public int size(){
+    	// Variable to store the size of the list
+    	int size = 0;
+    	// Listnode to indicate current location in the list
+    	Listnode<E> curr = head;
+    	
+    	// Loop through the list until the next one is null to find the size
+    	while(curr.getNext() != null){
+    		curr = curr.getNext();
+    		// Increment size
+    		++ size;
+    	}
+    	// Return the size of the list
+    	return size;
+    }
+    
 	/** 
 	 * Returns a reference to the header node for this linked list.
 	 * The header node is the first node in the chain and it does not 
@@ -65,6 +155,6 @@ public class LinkedList<E> implements ListADT<E> {
 	 * Must return a reference to a LinkedListIterator for this list.
 	 */
 	public LinkedListIterator<E> iterator() {
-	    return LinkedListIterator();
+	    return new LinkedListIterator<E>(head);
 	}
 }
