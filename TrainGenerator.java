@@ -63,7 +63,74 @@ public class TrainGenerator {
 	 * @param filename train input file name
 	 * @return a train generated from a file
 	 */
-	public static Train getIncomingTrainFromFile(String filename){
-		//TODO: implement this method
+	public static Train getIncomingTrainFromFile(String filename) {
+		// Create a file with filename imported
+		File a = new File(filename);
+		
+		// Create a reference to a train object for later return
+		Train train = null;
+		
+		// String variable to store each line of train information
+		String info = null;
+		
+		// Used to store what's after split
+		String splited[];
+		
+		// Variable that holds the weight of a train
+		int weight = 0;
+		
+		try {
+			// Create a scanner to read the file
+			Scanner scnr = new Scanner(a);
+		
+			train = new Train("TrainHub");
+			// Read each line from file
+			while(scnr.hasNextLine()){
+				
+				// Get information of each cargo car from file
+				info = scnr.nextLine().trim();
+				
+				// Split the line with comma
+				splited = info.split(",");
+
+				// Trim the split message
+				for (int i = 0; i < splited.length; ++i) {
+					splited[i] = splited[i].trim().toLowerCase();
+				}
+				
+				// When there is more than three elements, read the next line
+				if(splited.length != 3){
+					continue;
+				}
+				// If there is three elements, check if the third one is a integer
+				else{
+					try{
+						// Change an String to int and assign to weight
+						weight = Integer.parseInt(splited[2]); 
+						
+						// When weight is small than 0, read the next line
+						if(weight < 0){
+							continue;
+						}
+						
+					}catch(NumberFormatException e){
+						// When cannot correctly transfer, go back to read next line
+						continue;
+					}
+				}
+				// Create a new Cargo car with information 
+				CargoCar c = new CargoCar(splited[1], weight, splited[0]);
+				// Add the Cargo car to the train
+				train.add(c);
+			}
+			
+			scnr.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		// Return the trian read from file
+		return train;
+		
 	}
 }

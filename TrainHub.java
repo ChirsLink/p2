@@ -48,7 +48,8 @@ public class TrainHub {
 	 * @return  Pointer to the train if the train going to the given destination exists. Otherwise returns null.
 	 */
 	public Train findTrain(String dest){
-		//TODO: implement this method
+		LinkedListIterator<Train> itr = trains.iterator();
+		
 	}
 	
 	/**

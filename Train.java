@@ -51,22 +51,47 @@ public class Train implements Iterable<CargoCar> {
 	 * @return total weight of specified cargo in this train
 	 */
 	public int getWeight(String cargoName){
-        int totalWeight = 0;
+        // Variable to store weight
+		int totalWeight = 0;
         
-        Iterator<CargoCar> = new Train.iterator();
-
+		// Iterator to the train linked list that has cargo cars
+        LinkedListIterator<CargoCar> itr = train.iterator();
+       
+        // When there is next cargo in the train keep checking name
+        while(itr.hasNext()){
+        	
+        	// Store the cargo car from train
+        	CargoCar c = itr.next();
+        	
+        	// If the name of cargo matches, add weight to total weight
+        	if(c.getName().equals(cargoName)){
+        		totalWeight += c.getWeight();
+        	}
+        }
         
+        // Return the total weight of a certain name of cargo
+        return totalWeight;
                 
 	}
 	
-	// add cargo car at end of train
+	
+	/**
+	 * Add cargo car to the end of the train
+	 * 
+	 * @param cargoCar the object need to be added to the end of car
+	 */
 	public void add(CargoCar cargoCar) {
-		//TODO: implement this method
+		// Add cargoCar at the end of the train
+		train.add(cargoCar);
 	}
 
-	// add cargo car as specified position 
+	/**
+	 * Add cargo car as specified position 
+	 * @param pos the position at which to add the item
+	 * @param newCargo the cargo car to add
+	 */
 	public void add(int pos, CargoCar newCargo) {
-		//TODO: implement this method		
+		train.add(pos, newCargo);
 	}
 	
 	/**
@@ -79,11 +104,33 @@ public class Train implements Iterable<CargoCar> {
 	 * otherwise null
 	 */
 	public CargoCar removeCargo(String cargoName){
-		//TODO: implement this method
+		
+		int pos = 0;
+		CargoCar c = null;
+		
+		LinkedListIterator<CargoCar> itr = train.iterator();
+		
+		while(itr.hasNext()){
+			
+			String name  = itr.next().getName();
+			
+			if(name.equals(cargoName)){
+				c = train.remove(pos);
+				break;
+			}
+			++pos;
+		}
+		return c;
 	}
-
+	
+	/**
+	 * Returns a iterator that iterate through the train linked list
+	 * @return itr a linkedlistIterator for the train
+	 */
 	public LinkedListIterator<CargoCar> iterator() {
-		//TODO: implement this method
+		// Get the iterator of the train and return it
+		LinkedListIterator<CargoCar> itr = train.iterator(); 
+		return itr;
 	}
 
 	/**
@@ -97,7 +144,8 @@ public class Train implements Iterable<CargoCar> {
 	 * @return the number of cargo cars on this train.
 	 */
 	public int numCargoCars() {
-		// TODO implement this method
+		// Return Integer that holds the number of cargo cars in a train
+		return train.size();
 	}
 
 	/**
@@ -116,7 +164,7 @@ public class Train implements Iterable<CargoCar> {
 	 * @return the header node of the chain of nodes from the linked list.
 	 */
 	public Listnode<CargoCar> getHeaderNode() {
-		// TODO implement this method
+		return train.getHeaderNode();
 	}
 
 	/**
