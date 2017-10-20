@@ -1,3 +1,5 @@
+import java.util.Iterator;
+
 /**
  * An Iterable list that is implemented using a singly-linked chain of nodes
  * with a header node and without a tail reference.
@@ -39,7 +41,6 @@ public class LinkedList<E> implements ListADT<E> {
 
     // Need further change
     private Listnode<E> head;
-    private int numItems;
     
     /**
      * Construct new Linkedlist with header node
@@ -48,8 +49,6 @@ public class LinkedList<E> implements ListADT<E> {
     	//Initialize a header node with null reference
     	head  = new Listnode<E>(null);
     }
-    
-    
     
     /**
 	 * Adds a data item to the end of the List.
@@ -87,8 +86,6 @@ public class LinkedList<E> implements ListADT<E> {
 	 * than size()
 	 */
     public void add(int pos, E item){
-    	// Variable to store the size of the list
-    	int size = size();
     	
     	// When the item passed in is null, throw IllegalArgumentException
     	if(item == null){
@@ -97,17 +94,157 @@ public class LinkedList<E> implements ListADT<E> {
     	
     	// When usr wants to add item to position smaller than 0 or bigger than
     	// the size of list, throw IndexOutOfBoundsException
-    	if(pos< 0 || pos>size){
+    	if(pos< 0 || pos>size()){
     		throw new IndexOutOfBoundsException();
     	}
+    	
     	// Create new node to add to linked list
     	Listnode<E> newNode = new Listnode<E>(item);
     	
+    	// Listnode to indicate the current location in the list
+    	Listnode<E> curr = head;
+    	
+    	// Iterate through the list to the one before the position to add
     	for(int i = 0; i < pos; ++i){
-    		
+    		curr = curr.getNext();
     	}
     	
+    	// When the next position is not null, add new node between two nodes
+    	if(curr.getNext() != null){
+    		newNode.setNext(curr.getNext());
+    		curr.setNext(newNode);   		
+    	}
+    	// else set the next node after newnode to null
+    	else{
+    		curr.setNext(newNode);
+    		newNode.setNext(null);
+    	}
     }
+    
+    /**
+	 * Returns true iff item is in the List (i.e., there is an item x in the List 
+	 * such that x.equals(item))
+	 * 
+	 * @param item the item to check
+	 * @return true if item is in the List, false otherwise
+	 */
+	public boolean contains(E item) {
+		// Create Iterator to iterate through the list
+		Iterator<E> itr = iterator();
+		
+		// When there is nex item in the list, check the data. 
+		while(itr.hasNext()){
+			// If found a match return true indicates match found
+			if(itr.next() == item){
+				return true;
+			}
+		}
+		// If no match found in the list return false;
+		return false;
+	}
+	
+	/**
+	 * Returns the item at position pos in the List.
+	 * 
+	 * @param pos the position of the item to return
+	 * @return the item at position pos
+	 * @throws IndexOutOfBoundsException if pos is less than 0 or greater than
+	 * or equal to size()
+	 */
+	public E get(int pos) {
+		
+		E item = null;
+		// When usr wants to add item to position smaller than 0 or bigger than
+    	// or equal to size of list, throw IndexOutOfBoundsException
+		if(pos<0 || pos >= size()){
+			throw new IndexOutOfBoundsException();
+		}
+		
+		// Create Iterator to iterate through the list
+		Iterator<E> itr = iterator();
+		
+		// Iterate to the position and get the data item at that position
+		for(int i = 0; i<= pos; ++i){
+			item  = itr.next();
+		}
+		
+		// Return the data item 
+		return item;
+	}
+
+   /**
+	 * Returns true iff the List is does not have any data items.
+	 * 
+	 * @return true if the List is empty, false otherwise
+	 */
+	public boolean isEmpty() {
+		
+		// Listnode to indicate the current position 
+		Listnode<E> curr = head;
+
+		// Boolean variable to indicate if list is empty
+		boolean empty = true;
+		
+		// Go through the list and check every data item of the listnode
+		for(int i = 0; i< size(); ++i){
+			// if one of them is not empty, change the boolean and break loop
+			if(curr.getNext().getData() != null){
+				empty = false;
+				break;
+			}
+			// If empty, upadate the pointer
+			curr = curr.getNext();
+		}
+		// return boolean variable that indicates the emptiness of the list
+		return empty;
+	}
+
+	/**
+	 * Removes and returns the item at position pos in the List, moving the items 
+	 * originally in positions pos+1 through size() - 1 one place to the left to 
+	 * fill in the gap.
+	 * 
+	 * @param pos the position at which to remove the item
+	 * @return the item at position pos
+	 * @throws IndexOutOfBoundsException if pos is less than 0 or greater than
+	 * or equal to size()
+	 */
+	public E remove(int pos) {
+		
+		// Listnode to indicate the current position 
+		Listnode<E> curr = head;
+		
+		// Item to be returned
+		E item = null;
+		
+		// When usr wants to add item to position smaller than 0 or bigger than
+    	// or equal to size of list, throw IndexOutOfBoundsException
+		if(pos > 0 || pos >= size()){
+			throw new IndexOutOfBoundsException();
+		}
+		
+		// Go to the node before the node at the position 
+		for(int i=0; i < pos; ++i){
+			curr = curr.getNext();
+		}
+		
+		// Get the item from position
+		item = curr.getNext().getData();
+		
+		// When the position listnode is the last node in the list, set the
+		// next of the one before to null
+		if(curr.getNext().getNext() == null){
+			curr.setNext(null);
+		}
+		// Set the listnode before the position node points to the one after 
+		// position node
+		else{
+			curr.setNext(curr.getNext().getNext());
+		}
+		
+		return item;
+	}
+    
 
     
     /**
@@ -130,7 +267,7 @@ public class LinkedList<E> implements ListADT<E> {
     	// Return the size of the list
     	return size;
     }
-    
+   
 	/** 
 	 * Returns a reference to the header node for this linked list.
 	 * The header node is the first node in the chain and it does not 
@@ -145,7 +282,6 @@ public class LinkedList<E> implements ListADT<E> {
 	 * 
 	 * @return a reference to the header node of this list. 0
 	 */
-
 	public Listnode<E> getHeaderNode() {
 		//TODO implement this method
         return head;
@@ -155,6 +291,6 @@ public class LinkedList<E> implements ListADT<E> {
 	 * Must return a reference to a LinkedListIterator for this list.
 	 */
 	public LinkedListIterator<E> iterator() {
-	    return new LinkedListIterator<E>(head);
+	    return new LinkedListIterator<E>(head.getNext());
 	}
 }

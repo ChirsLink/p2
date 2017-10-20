@@ -14,8 +14,7 @@ import java.util.NoSuchElementException;
  */
 public class LinkedListIterator<T> implements Iterator<T> {
 	
-	// TODO determine what data members are needed for this iterator type
-	
+	private Listnode<T> curr;
 
 	/**
 	 * Constructs a LinkedListIterator when given the first node
@@ -26,9 +25,8 @@ public class LinkedListIterator<T> implements Iterator<T> {
 	 * @param a reference to a List node with data. 
 	 */
 	public LinkedListIterator(Listnode<T> head) {
-		
-		// TODO finish the constructor
-
+		// Initialize the current position to the one passed in
+		this.curr = head;
 	}
 	
 	/**
@@ -40,18 +38,31 @@ public class LinkedListIterator<T> implements Iterator<T> {
 	 */
 	@Override
 	public T next() {
-		// TODO implement this method
+		// When there is no more element, through NoSuchElementException 
+		if(!hasNext()){
+			throw new NoSuchElementException();
+		}
+		
+		// Generic data type to store whatefer is in the data element
+		T item = curr.getData();
+		
+		// Update the pointer to the next listnode
+		curr = curr.getNext();
+		
+		// Return the data stored in the current position
+		return item;
 	}
 	
 	/**
-	 * Returns true if their are no more data items to iterate through 
+	 * Returns true if their are more data items to iterate through 
 	 * for this list.
 	 * 
 	 * @return true if their are any remaining data items to iterator through
 	 */
 	@Override
 	public boolean hasNext() {
-		// TODO implement this method
+		// return true if there is next data item in the list
+		return (curr != null);
 	}
        
     /**
