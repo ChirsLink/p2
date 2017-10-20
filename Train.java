@@ -51,7 +51,12 @@ public class Train implements Iterable<CargoCar> {
 	 * @return total weight of specified cargo in this train
 	 */
 	public int getWeight(String cargoName){
-		//TODO: implement this method
+        int totalWeight = 0;
+        
+        Iterator<CargoCar> = new Train.iterator();
+
+        
+                
 	}
 	
 	// add cargo car at end of train
