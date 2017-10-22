@@ -1,3 +1,12 @@
+/////////////////////////////////////////////////////////////////////////////
+//Semester:         CS367 Fall 2017 
+//PROJECT:          (Program 2)
+//FILE:             (Train.java)
+//
+//TEAM:    (individual)
+//Author1: (Yunhao Lin,ylin278@wisc.edu, ylin278, 002)
+//
+/////////////////////////////////////////////////////////////////////////////
 /**
  * This class represents a train.  It has a destination and a linked list 
  * of CargoCar objects.  It implements Iterable<CargoCar> by returning 

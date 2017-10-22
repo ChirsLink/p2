@@ -1,5 +1,14 @@
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+/////////////////////////////////////////////////////////////////////////////
+//Semester:         CS367 Fall 2017 
+//PROJECT:          (Program 2)
+//FILE:             (LinkedListIterator.java)
+//
+//TEAM:    (individual)
+//Author1: (Yunhao Lin,ylin278@wisc.edu, ylin278, 002)
+//
+/////////////////////////////////////////////////////////////////////////////
 
 /**
  * The iterator implementation for LinkedList.  The constructor for this

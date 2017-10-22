@@ -2,6 +2,15 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Random;
 import java.util.Scanner;
+/////////////////////////////////////////////////////////////////////////////
+//Semester:         CS367 Fall 2017 
+//PROJECT:          (Program 2)
+//FILE:             (TrainGenerator.java)
+//
+//TEAM:    (individual)
+//Author1: (Yunhao Lin,ylin278@wisc.edu, ylin278, 002)
+//
+/////////////////////////////////////////////////////////////////////////////
 
 /**
  * This class provide methods for generating a Train.
@@ -124,7 +133,7 @@ public class TrainGenerator {
 				// Add the Cargo car to the train
 				train.add(c);
 			}
-	
+		// Catch File not Found Exception
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}

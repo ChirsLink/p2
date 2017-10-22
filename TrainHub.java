@@ -1,3 +1,13 @@
+/////////////////////////////////////////////////////////////////////////////
+//Semester:         CS367 Fall 2017 
+//PROJECT:          (Program 2)
+//FILE:             (TrainHub.java)
+//
+//TEAM:    (individual)
+//Author1: (Yunhao Lin,ylin278@wisc.edu, ylin278, 002)
+//
+/////////////////////////////////////////////////////////////////////////////
+
 /**
  * This class represents a train hub and provides the common operations
  * needed for managing the incoming and outgoing trains.
@@ -41,42 +51,61 @@ public class TrainHub {
 	public void processIncomingTrain(Train train){
 		// Create Iterator to 
 		LinkedListIterator<CargoCar> itr;
-
+		// Used to store the train found in the train list
 		Train trFound = null;
-
+		// Used to store the cargo get from 
 		CargoCar cargo = null;
 
 		Train newTrain = null;
 		
-
+		// When there is next train in the list keep going
 		while(train.numCargoCars()>0){
+			// Set cargo to be the first data in the first node
 			cargo = train.getHeaderNode().getNext().getData();
 
+			// Find a train with destination of the cargo
 			trFound = findTrain(cargo.getDestination());
 
-
+			// If couldn't find train, create new train and add cargo to it
 			if(trFound == null){
 				// Create a new Train go to the destination of cargo
 				newTrain = new Train(cargo.getDestination());
+				// Add the cargo to the train
 				newTrain.add(cargo);
+				// Add the new Train to the trains' list
 				trains.add(newTrain);
 			}
+			
+			// If found the train going to that destination
 			else{
 				// Initialize iterator to iterate through the train to dest
 				itr = trFound.iterator();
+				// Position to add the cargo in the train
 				int pos = 0;
 				
+				// Iterate through the list
 				while(itr.hasNext()){
+					// Set a temporarily cargo car to to be the next car
 				    CargoCar temp = itr.next();
-				    int compare = cargo.getName().compareToIgnoreCase(temp.getName());
+				    
+				    // Compare the name of the cargo with the temporarily one
+				    int compare = cargo.getName().
+				    		compareToIgnoreCase(temp.getName());
 			
+				    // When it's smaller than the temp one , break the loop
+				    // with current position
 					if(compare <= 0){
 						break;
 					}
+					
+					// Increase the position
 					pos ++;
 				}
+				
+				// Add cargo to that position
 				trFound.add(pos,cargo);
 			}
+			// Remove the first cargo of that name
 			train.removeCargo(cargo.getName());
 		}
 	}
@@ -87,15 +116,14 @@ public class TrainHub {
 	 * @return  Pointer to the train if the train going to the given destination exists. Otherwise returns null.
 	 */
 	public Train findTrain(String dest){
+		// Create 
 		LinkedListIterator<Train> itr = trains.iterator();
 		Train train = null;
 		int pos = 0;
-		int sum = 0;
 		// When there is next train in the list of trains
 		while(itr.hasNext()){
 			pos++;
 			train = itr.next();
-			sum += pos;
 			// When the Destination for train has been found, return the train
 			if(train.getDestination().equalsIgnoreCase(dest)){
 				return train;
@@ -121,12 +149,12 @@ public class TrainHub {
 		// Train that goes to the destination we want
 		Train train = findTrain(dest);
 		
-	
 		// When the given cargo is found remove the cargo from the train
 		if(train != null){
 			car = train.removeCargo(name);
 		}
-			
+		
+		// Return the cargo car	
 		return car;
 	}
 	
@@ -168,16 +196,27 @@ public class TrainHub {
 
 		// Used to track where are we at the list
 		int pos = 0;
+		
+		// To detect if the train is departed
 		boolean depart = false;
+		
+		// When there is next train keep going
 		while(trainItr.hasNext()){
 			
+			// Set train to the next train
 			train =  trainItr.next();
+			
+			// When the destination matches, remove train at that destination
 			if(train.getDestination().equalsIgnoreCase(dest)){
 				trains.remove(pos);
+				// Set the train to be departed
 				depart =true;
 			}
+			
+			// increase position in the trains' list
 			pos ++;
 		}
+		// Return to show if train is departed
 		return depart;
 	}
 	/**
@@ -203,7 +242,7 @@ public class TrainHub {
 			// Increment the position 
 			
 		}
-		// Return value that shows if there is train deleted
+		// Return value that shows if there is train departed
 		return delete;
 	}
 
@@ -217,9 +256,17 @@ public class TrainHub {
 		// Create iterator to go through the trains
 		LinkedListIterator<Train> itr = trains.iterator();
 		
+		// Train to be displayed
 		Train train = null;
+		
+		// When there is next in the Trains 
+		
 		while(itr.hasNext()){
+			
+			// Set the train to be displayed
 			train = itr.next();
+			
+			// If the destination matches, display train
 			if(train.getDestination().equalsIgnoreCase(dest)){
 				// Make the train to string 
 				System.out.println(train.toString());
@@ -227,7 +274,7 @@ public class TrainHub {
 				return true;
 			}
 		}
-		// If not 
+		// If not return false
 		return false;
 	}
 
@@ -240,10 +287,14 @@ public class TrainHub {
 	public boolean displayAllTrains(){
 		// Create iterator to go through the trains
 		LinkedListIterator<Train> itr = trains.iterator();
+		
+		// To indicate if there is train to be displayed
 		Boolean inTrain = false;
 		
+		// Train to be displayed
 		Train train = null;
 		
+		// When there is next train display it
 		while(itr.hasNext()){
 			train = itr.next();
 			// Make the train to string 
@@ -251,7 +302,7 @@ public class TrainHub {
 			// When there is train to that destination, return tree
 			inTrain = true;
 		}
-		// If not 
+		// If not , return false
 		return inTrain;
 	}
 	
@@ -296,62 +347,93 @@ public class TrainHub {
 		
 		Listnode<CargoCar> first_prev = null, first = null, last = null;
 		boolean hasFound = false;
-		
+		boolean finish = false;
 		// 1. Find references to the node BEFORE the first matching cargo node
 		//    and a reference to the last node with matching cargo.
 		
-		srcHeader = srcTrain.getHeaderNode();
-		curr = srcHeader;
-
-		while(curr.getNext().getNext() != null){
-			CargoCar temp = curr.getNext().getData();
-			if(temp.getName().equalsIgnoreCase(cargoName)){
+		// Set curr to be the header node
+		curr = srcTrain.getHeaderNode();
+		first_prev = curr;
+		last = curr.getNext();
+		
+		// When the next item is not null keep going
+		while(curr.getNext() != null){
+			
+			// if not found and the next is a match of name
+			if(!hasFound && curr.getNext().getData().getName().equalsIgnoreCase(cargoName)){
+				// change the node before found and the first found
 				first_prev = curr;
-				break;
+				first = curr.getNext();
+				
+				// Make found to be true
+				hasFound = true;
 			}
-			curr = curr.getNext();
-		}
-		
-		while(curr.getNext().getNext()!=null){
-			CargoCar temp2 = curr.getNext().getData();
-			if(!temp2.getName().equalsIgnoreCase(cargoName)){
+			
+			// if already found, then go to find the next not match
+			if(hasFound && !curr.getNext().getData().getName().equalsIgnoreCase(cargoName)){
+				// set last to be at curr
 				last = curr;
+				
+				// leave the loop
+				first_prev.setNext(last.getNext());
+				// Set next of last to nothing
+				last.setNext(null);
+				finish = true; 
 				break;
 			}
+			
+			// update pointer
 			curr = curr.getNext();
 		}
+	
 		
-		
-		
-		
+		// if the list of the cargo car with the cargo name
+		// set the next of  previous of the first car to null
+		if (hasFound && !finish) {
+			last = curr;
+			first_prev.setNext(null);
+		}
+	
 			// NOTE : We know we can find this cargo,
 			//        so we are not going to deal with other exceptions here.
-
 		
 		// 2. Remove from matching chain of nodes from src Train
 		//    by linking node before match to node after matching chain
-		first_prev.setNext(last.getNext());
+		
 		
 		// 3-1. Find reference to first matching cargo in dst Train
-		dstHeader = dstTrain.getHeaderNode();
-		curr = dstHeader;
+		curr = dstHeader.getNext();
+		prev = dstHeader;
 		
-		while(curr.getNext().getNext() != null){
-			CargoCar temp = curr.getNext().getData();
-			if(temp.getName().equalsIgnoreCase(cargoName)){
-				first = curr.getNext();
+		// When there is nothing in the train
+		if(curr == null){
+			prev.setNext(first);
+		}
+		
+		while(curr !=null){
+			
+			// 3-2. If found, insert them before cargo found in dst
+			if(curr.getData().getName().compareToIgnoreCase(cargoName) >= 0) {
+				
+				last.setNext(curr);
+				prev.setNext(first);
+				// Make it found
+				hasFound = true;
+				
 				break;
 			}
+			if(curr.getNext() == null){
+				curr.setNext(first);
+				break;
+			}
+			
+			// Update pointer
 			curr = curr.getNext();
-		}
-		// 3-2. If found, insert them before cargo found in dst
-		if(first != null){
-			curr.setNext(first_prev.getNext());
-			last.setNext(first);
+			prev = prev.getNext();
 		}
 		// 3-3. If no matching cargo, add them at the end of train
-		else{
-			curr.getNext().setNext(first_prev.getNext());
+		if(!hasFound){
+			curr.setNext(first);
 		}
 
 	}
