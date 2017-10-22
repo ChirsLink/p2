@@ -19,6 +19,7 @@ public class TrainHub {
 	 * Constructs and initializes TrainHub object
 	 */
 	public TrainHub(){
+		// Initialize trainshub to be a linked List of trains
 		this.trains = new LinkedList<Train>();
 	}
 	
@@ -38,9 +39,47 @@ public class TrainHub {
 	 * @param train Incoming train (list or cargo cars)
 	 */
 	public void processIncomingTrain(Train train){
-		//TODO: implement this method
+		// Create Iterator to 
+		LinkedListIterator<CargoCar> itr;
+
+		Train trFound = null;
+
+		CargoCar cargo = null;
+
+		Train newTrain = null;
+		
+
+		while(train.numCargoCars()>0){
+			cargo = train.getHeaderNode().getNext().getData();
+
+			trFound = findTrain(cargo.getDestination());
+
+
+			if(trFound == null){
+				// Create a new Train go to the destination of cargo
+				newTrain = new Train(cargo.getDestination());
+				newTrain.add(cargo);
+				trains.add(newTrain);
+			}
+			else{
+				// Initialize iterator to iterate through the train to dest
+				itr = trFound.iterator();
+				int pos = 0;
+				
+				while(itr.hasNext()){
+				    CargoCar temp = itr.next();
+				    int compare = cargo.getName().compareToIgnoreCase(temp.getName());
+			
+					if(compare <= 0){
+						break;
+					}
+					pos ++;
+				}
+				trFound.add(pos,cargo);
+			}
+			train.removeCargo(cargo.getName());
+		}
 	}
-	
 	/**
 	 * This method tries to find the train in the list of trains, departing to the given destination city.
 	 * 
@@ -49,7 +88,21 @@ public class TrainHub {
 	 */
 	public Train findTrain(String dest){
 		LinkedListIterator<Train> itr = trains.iterator();
-		
+		Train train = null;
+		int pos = 0;
+		int sum = 0;
+		// When there is next train in the list of trains
+		while(itr.hasNext()){
+			pos++;
+			train = itr.next();
+			sum += pos;
+			// When the Destination for train has been found, return the train
+			if(train.getDestination().equalsIgnoreCase(dest)){
+				return train;
+			}
+		}
+		// Return null if there is no train going to destination
+		return null;
 	}
 	
 	/**
@@ -62,7 +115,19 @@ public class TrainHub {
 	 * it returns the cargo car. Else it returns null.
 	 */
 	public CargoCar removeCargo(String dest, String name){
-		//TODO: implement this method
+		// The cargo car to return
+		CargoCar car = null;
+		
+		// Train that goes to the destination we want
+		Train train = findTrain(dest);
+		
+	
+		// When the given cargo is found remove the cargo from the train
+		if(train != null){
+			car = train.removeCargo(name);
+		}
+			
+		return car;
 	}
 	
 	/**
@@ -73,7 +138,20 @@ public class TrainHub {
 	 * @return Total weight of given cargo in all departing trains.
 	 */
 	public int getWeight(String name){
-		//TODO: implement this method
+		// Generate iterator to iterate through the trains list
+		LinkedListIterator<Train> itr = trains.iterator();
+		
+		// Integer variable to store the sum of certain cargo
+		int sum  = 0;
+		
+		// When there is next train in the trains' list, create itertor
+		// to go through each cargo car in the train
+		while(itr.hasNext()){
+			sum += itr.next().getWeight(name);
+		}
+		
+		// Return the total weight of some kind of cargo 
+		return sum;
 	}
 	
 	/**
@@ -84,7 +162,23 @@ public class TrainHub {
 	 * @return True if train to the given destination city exists. If not, then return false. 
 	 */
 	public boolean departTrain(String dest){
-		//TODO: implement this method
+		// Generate iterator to iterate through the trains list
+		LinkedListIterator<Train> trainItr = trains.iterator();
+		Train train;
+
+		// Used to track where are we at the list
+		int pos = 0;
+		boolean depart = false;
+		while(trainItr.hasNext()){
+			
+			train =  trainItr.next();
+			if(train.getDestination().equalsIgnoreCase(dest)){
+				trains.remove(pos);
+				depart =true;
+			}
+			pos ++;
+		}
+		return depart;
 	}
 	/**
 	 * This method deletes all the trains.
@@ -92,7 +186,25 @@ public class TrainHub {
 	 * @return True if there was at least one train to delete. False if there was no train to delete.
 	 */
 	public boolean departAllTrains(){
-		//TODO: implement this method
+		
+		// Boolean variable that indicates train to delete
+		boolean delete = false;
+		
+		// Iterator that iterate through the train list
+		LinkedListIterator<Train> itr = trains.iterator();
+		
+		// When there is next trian in the train list, keep going
+		while(trains.size()>0){
+			
+			// Remove the train at that position
+			trains.remove(0);
+			// Change boolean to indicate train has been removed
+			delete = true;
+			// Increment the position 
+			
+		}
+		// Return value that shows if there is train deleted
+		return delete;
 	}
 
 	/**
@@ -102,7 +214,21 @@ public class TrainHub {
 	 * @return True if train to the given destination city exists. If not, then return false.
 	 */
 	public boolean displayTrain(String dest){
-		//TODO: implement this method
+		// Create iterator to go through the trains
+		LinkedListIterator<Train> itr = trains.iterator();
+		
+		Train train = null;
+		while(itr.hasNext()){
+			train = itr.next();
+			if(train.getDestination().equalsIgnoreCase(dest)){
+				// Make the train to string 
+				System.out.println(train.toString());
+				// When there is train to that destination, return tree
+				return true;
+			}
+		}
+		// If not 
+		return false;
 	}
 
 	/**
@@ -112,7 +238,21 @@ public class TrainHub {
 	 * @return True if there is at least one train to print. False if there is no train to print.
 	 */
 	public boolean displayAllTrains(){
-		//TODO: implement this method
+		// Create iterator to go through the trains
+		LinkedListIterator<Train> itr = trains.iterator();
+		Boolean inTrain = false;
+		
+		Train train = null;
+		
+		while(itr.hasNext()){
+			train = itr.next();
+			// Make the train to string 
+			System.out.println(train.toString());
+			// When there is train to that destination, return tree
+			inTrain = true;
+		}
+		// If not 
+		return inTrain;
 	}
 	
 	/**
@@ -148,6 +288,7 @@ public class TrainHub {
 		// TODO Implement this method last.  It is not needed for other parts of program
 		
 		// get references to train header nodes
+		
 		// get references to train header nodes
 		Listnode<CargoCar> srcHeader, dstHeader, prev, curr;
 		srcHeader = srcTrain.getHeaderNode();
@@ -158,7 +299,28 @@ public class TrainHub {
 		
 		// 1. Find references to the node BEFORE the first matching cargo node
 		//    and a reference to the last node with matching cargo.
+		
+		srcHeader = srcTrain.getHeaderNode();
+		curr = srcHeader;
 
+		while(curr.getNext().getNext() != null){
+			CargoCar temp = curr.getNext().getData();
+			if(temp.getName().equalsIgnoreCase(cargoName)){
+				first_prev = curr;
+				break;
+			}
+			curr = curr.getNext();
+		}
+		
+		while(curr.getNext().getNext()!=null){
+			CargoCar temp2 = curr.getNext().getData();
+			if(!temp2.getName().equalsIgnoreCase(cargoName)){
+				last = curr;
+				break;
+			}
+			curr = curr.getNext();
+		}
+		
 		
 		
 		
@@ -166,21 +328,31 @@ public class TrainHub {
 			//        so we are not going to deal with other exceptions here.
 
 		
-		
-		
-		
 		// 2. Remove from matching chain of nodes from src Train
 		//    by linking node before match to node after matching chain
-		
-		
-		
+		first_prev.setNext(last.getNext());
 		
 		// 3-1. Find reference to first matching cargo in dst Train
+		dstHeader = dstTrain.getHeaderNode();
+		curr = dstHeader;
 		
-		
-				// 3-2. If found, insert them before cargo found in dst
+		while(curr.getNext().getNext() != null){
+			CargoCar temp = curr.getNext().getData();
+			if(temp.getName().equalsIgnoreCase(cargoName)){
+				first = curr.getNext();
+				break;
+			}
+			curr = curr.getNext();
+		}
+		// 3-2. If found, insert them before cargo found in dst
+		if(first != null){
+			curr.setNext(first_prev.getNext());
+			last.setNext(first);
+		}
+		// 3-3. If no matching cargo, add them at the end of train
+		else{
+			curr.getNext().setNext(first_prev.getNext());
+		}
 
-		
-			// 3-3. If no matching cargo, add them at the end of train
 	}
 }

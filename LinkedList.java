@@ -1,5 +1,15 @@
 import java.util.Iterator;
 
+/////////////////////////////////////////////////////////////////////////////
+//Semester:         CS367 Fall 2017 
+//PROJECT:          (Program 2)
+//FILE:             (LinkedList.java)
+//
+//TEAM:    (individual)
+//Author1: (Yunhao Lin,ylin278@wisc.edu, ylin278, 002)
+//
+/////////////////////////////////////////////////////////////////////////////
+
 /**
  * An Iterable list that is implemented using a singly-linked chain of nodes
  * with a header node and without a tail reference.
@@ -116,8 +126,7 @@ public class LinkedList<E> implements ListADT<E> {
     	}
     	// else set the next node after newnode to null
     	else{
-    		curr.setNext(newNode);
-    		newNode.setNext(null);
+    		add(item);
     	}
     }
     
@@ -135,7 +144,7 @@ public class LinkedList<E> implements ListADT<E> {
 		// When there is nex item in the list, check the data. 
 		while(itr.hasNext()){
 			// If found a match return true indicates match found
-			if(itr.next() == item){
+			if(itr.next().equals(item)){
 				return true;
 			}
 		}
@@ -182,21 +191,17 @@ public class LinkedList<E> implements ListADT<E> {
 		// Listnode to indicate the current position 
 		Listnode<E> curr = head;
 
-		// Boolean variable to indicate if list is empty
-		boolean empty = true;
-
 		// Go through the list and check every data item of the listnode
 		for(int i = 0; i< size(); ++i){
-			// if one of them is not empty, change the boolean and break loop
+			// if one of them is not empty, return false
 			if(curr.getNext().getData() != null){
-				empty = false;
-				break;
+				return false;
 			}
-			// If empty, upadate the pointer
+			// If not empty, upadate the pointer
 			curr = curr.getNext();
 		}
 		// return boolean variable that indicates the emptiness of the list
-		return empty;
+		return false;
 	}
 
 	/**
@@ -219,28 +224,21 @@ public class LinkedList<E> implements ListADT<E> {
 		
 		// When usr wants to add item to position smaller than 0 or bigger than
     	// or equal to size of list, throw IndexOutOfBoundsException
-		if(pos > 0 || pos >= size()){
+		if(pos < 0 || pos >= size()){
 			throw new IndexOutOfBoundsException();
 		}
-		
+
 		// Go to the node before the node at the position 
 		for(int i=0; i < pos; ++i){
 			curr = curr.getNext();
 		}
-		
+
 		// Get the item from position
 		item = curr.getNext().getData();
-		
-		// When the position listnode is the last node in the list, set the
-		// next of the one before to null
-		if(curr.getNext().getNext() == null){
-			curr.setNext(null);
-		}
+
 		// Set the listnode before the position node points to the one after 
 		// position node
-		else{
-			curr.setNext(curr.getNext().getNext());
-		}
+		curr.setNext(curr.getNext().getNext());
 
 		return item;
 	}
@@ -283,7 +281,7 @@ public class LinkedList<E> implements ListADT<E> {
 	 * @return a reference to the header node of this list. 0
 	 */
     public Listnode<E> getHeaderNode() {
-    	//TODO implement this method
+    	// Return the header node of the list
     	return head;
     }
 

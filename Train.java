@@ -55,7 +55,7 @@ public class Train implements Iterable<CargoCar> {
 		int totalWeight = 0;
         
 		// Iterator to the train linked list that has cargo cars
-        LinkedListIterator<CargoCar> itr = train.iterator();
+        LinkedListIterator<CargoCar> itr = iterator();
        
         // When there is next cargo in the train keep checking name
         while(itr.hasNext()){
@@ -64,7 +64,7 @@ public class Train implements Iterable<CargoCar> {
         	CargoCar c = itr.next();
         	
         	// If the name of cargo matches, add weight to total weight
-        	if(c.getName().equals(cargoName)){
+        	if(c.getName().equalsIgnoreCase(cargoName)){
         		totalWeight += c.getWeight();
         	}
         }
@@ -114,7 +114,7 @@ public class Train implements Iterable<CargoCar> {
 			
 			String name  = itr.next().getName();
 			
-			if(name.equals(cargoName)){
+			if(name.equalsIgnoreCase(cargoName)){
 				c = train.remove(pos);
 				break;
 			}
@@ -129,8 +129,7 @@ public class Train implements Iterable<CargoCar> {
 	 */
 	public LinkedListIterator<CargoCar> iterator() {
 		// Get the iterator of the train and return it
-		LinkedListIterator<CargoCar> itr = train.iterator(); 
-		return itr;
+		return train.iterator(); 
 	}
 
 	/**
