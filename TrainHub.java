@@ -49,13 +49,16 @@ public class TrainHub {
 	 * @param train Incoming train (list or cargo cars)
 	 */
 	public void processIncomingTrain(Train train){
-		// Create Iterator to 
+		// Create Iterator to go through the incoming train
 		LinkedListIterator<CargoCar> itr;
+		
 		// Used to store the train found in the train list
 		Train trFound = null;
+		
 		// Used to store the cargo get from 
 		CargoCar cargo = null;
 
+		// The new train to new destination cargo holds
 		Train newTrain = null;
 		
 		// When there is next train in the list keep going
@@ -119,13 +122,12 @@ public class TrainHub {
 		// Create 
 		LinkedListIterator<Train> itr = trains.iterator();
 		Train train = null;
-		int pos = 0;
 		// When there is next train in the list of trains
 		while(itr.hasNext()){
-			pos++;
+			// Temporarily Train tneed to be checked
 			train = itr.next();
 			// When the Destination for train has been found, return the train
-			if(train.getDestination().equalsIgnoreCase(dest)){
+			if(train.getDestination().equalsIgnoreCase(dest.trim())){
 				return train;
 			}
 		}
@@ -229,9 +231,6 @@ public class TrainHub {
 		// Boolean variable that indicates train to delete
 		boolean delete = false;
 		
-		// Iterator that iterate through the train list
-		LinkedListIterator<Train> itr = trains.iterator();
-		
 		// When there is next trian in the train list, keep going
 		while(trains.size()>0){
 			
@@ -260,7 +259,6 @@ public class TrainHub {
 		Train train = null;
 		
 		// When there is next in the Trains 
-		
 		while(itr.hasNext()){
 			
 			// Set the train to be displayed
@@ -296,6 +294,7 @@ public class TrainHub {
 		
 		// When there is next train display it
 		while(itr.hasNext()){
+			// Train at current position in the train hub
 			train = itr.next();
 			// Make the train to string 
 			System.out.println(train.toString());

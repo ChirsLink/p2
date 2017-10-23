@@ -31,7 +31,7 @@ public class Train implements Iterable<CargoCar> {
 	 * @param dest train destination
 	 */
 	public Train(String dest){
-		this.destination = dest;
+		this.destination = dest.trim();
 		train = new LinkedList<CargoCar>();
 	}
 	
@@ -50,7 +50,7 @@ public class Train implements Iterable<CargoCar> {
 	 * @param newDest new train destination
 	 */
 	public void setDestination(String newDest){
-		this.destination = newDest;
+		this.destination = newDest.trim();
 	}
 	
 	/**
@@ -113,22 +113,30 @@ public class Train implements Iterable<CargoCar> {
 	 * otherwise null
 	 */
 	public CargoCar removeCargo(String cargoName){
-		
+		// Position to remove the Cargo
 		int pos = 0;
+		
+		// Cargo car to be removed
 		CargoCar c = null;
 		
+		// Iterator used to go through the list
 		LinkedListIterator<CargoCar> itr = train.iterator();
 		
+		// When there is next train 
 		while(itr.hasNext()){
-			
+			// Get the name of that cargo in the train
 			String name  = itr.next().getName();
 			
+			// if the name of the cargo matches
 			if(name.equalsIgnoreCase(cargoName)){
+				// remove that cargo and break the loop
 				c = train.remove(pos);
 				break;
 			}
+			// in crease the position
 			++pos;
 		}
+		// return the cargo car
 		return c;
 	}
 	
@@ -172,7 +180,7 @@ public class Train implements Iterable<CargoCar> {
 	 * @return the header node of the chain of nodes from the linked list.
 	 */
 	public Listnode<CargoCar> getHeaderNode() {
-		return train.getHeaderNode();
+		return train.getHeaderNode();															
 	}
 
 	/**

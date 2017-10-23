@@ -73,8 +73,7 @@ public class TrainGenerator {
 	 * @return a train generated from a file
 	 */
 	public static Train getIncomingTrainFromFile(String filename) {
-	
-		
+			
 		// Create a reference to a train object for later return
 		Train train = null;
 		
@@ -95,7 +94,9 @@ public class TrainGenerator {
 			// Create a scanner to read the file
 			Scanner scnr = new Scanner(a);
 
+			// New Train coming to train hub
 			train = new Train("TrainHub");
+			
 			// Read each line from file
 			while(scnr.hasNextLine()){
 				
@@ -139,7 +140,6 @@ public class TrainGenerator {
 		}
 		
 		// Return the train read from file
-		return train;
-		
+		return train;	
 	}
 }
